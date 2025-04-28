@@ -133,6 +133,7 @@ def RunCmd(command, out_dir, extraenv=None,
                                    cwd=out_dir)
         stdout, stderr = process.communicate()
         if process.returncode != 0:
+            logger.info(f"{command}")
             raise Exception('\n%s\n%s\n%s' %
                             (stdout.decode('utf-8'),
                              stderr.decode('utf-8'),
