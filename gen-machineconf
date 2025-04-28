@@ -30,6 +30,7 @@ exc_backtrace = False
 
 # Validate the hw_description given and justify xsct/sdt flow.
 def validate_hwfile(hw_description, subparser=None):
+    logger.info(f"validate_hwfile: {hw_description}")
     if not os.path.exists(hw_description):
         raise Exception('Given path does not exists: %s' % hw_description)
     elif os.path.isfile(hw_description):
@@ -50,6 +51,7 @@ def validate_hwfile(hw_description, subparser=None):
             elif subparser == 'parse-sdt':
                 logger.info('parse-sdt subparser')
                 SDTFiles = common_utils.GetFilesFromDir(hw_description, 'system-top.dts')
+                logger.info(f"SDTFiles: {SDTFiles}")
                 if not SDTFiles:
                     raise Exception('parse-sdt: No system-top.dts file found in specified directory %s' % hw_description)
         else:
