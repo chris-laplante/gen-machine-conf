@@ -33,6 +33,7 @@ def validate_hwfile(hw_description, subparser=None):
     if not os.path.exists(hw_description):
         raise Exception('Given path does not exists: %s' % hw_description)
     elif os.path.isfile(hw_description):
+        logger.info('hw_description is file')
         hw_ext = pathlib.Path(hw_description).suffix
         if hw_ext != '.xsa':
             raise Exception('Only .xsa files are supported given %s' % hw_ext)
@@ -42,10 +43,12 @@ def validate_hwfile(hw_description, subparser=None):
         XsaFiles = SDTFiles = []
         if subparser:
             if subparser == 'parse-xsa':
+                logger.info('parse-xsa subparser')
                 XsaFiles = common_utils.GetFilesFromDir(hw_description, '.xsa')
                 if not XsaFiles:
                      raise Exception('parse-xsa: No .xsa file found in specified directory %s' % hw_description)
             elif subparser == 'parse-sdt':
+                logger.info('parse-sdt subparser')
                 SDTFiles = common_utils.GetFilesFromDir(hw_description, 'system-top.dts')
                 if not SDTFiles:
                     raise Exception('parse-sdt: No system-top.dts file found in specified directory %s' % hw_description)
@@ -69,9 +72,11 @@ def validate_hwfile(hw_description, subparser=None):
         elif XsaFiles:
             hw_ext = 'xsct'
             hw_file = XsaFiles[0]
+            logger.info('Using HW file from XsaFiles')
         elif SDTFiles:
             hw_ext = 'sdt'
             hw_file = SDTFiles[0]
+            logger.info(f'Using HW file from SDTFiles')
     else:
         raise Exception(
            'Only .xsa file or System Device-tree directory supported.')
