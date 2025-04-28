@@ -77,7 +77,7 @@ def RunLopperUsingDomainFile(domain_files, outdir, dts_path, hw_file,
             domain_args += ' -i %s' % os.path.join(lops_dir, domain)
         else:
             domain_args += ' -i %s' % domain
-    cmd = 'LOPPER_DTC_FLAGS="--werror -b 0 -@" %s -O %s -f --enhanced %s %s %s %s' % (
+    cmd = 'LOPPER_DTC_FLAGS="-b 0 -@" %s --werror -O %s -f --enhanced %s %s %s %s' % (
         lopper, outdir, lopper_args,
         domain_args, hw_file, dts_file)
     stdout = common_utils.RunCmd(cmd, dts_path, shell=True)
