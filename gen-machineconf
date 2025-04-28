@@ -267,14 +267,17 @@ def main():
         else:
             try:
                 hw_dir, global_args.src_uri, global_args.s_dir, localpath = common_utils.Bitbake.fetchAndUnpackURI(global_args.hw_description)
+                logger.info(f"got the hw_dir somehow: {hw_dir}")
             except common_utils.FetchError as e:
                 common_utils.Bitbake.shutdown()
                 raise Exception('Unable to fetch %s: %s' % (global_args.hw_description, e))
             except Exception as e:
-                logger.debug('Unable to fetch with bitbake, falling back to copy: %s' % e)
+                logger.info('Unable to fetch with bitbake, falling back to copy: %s' % e)
 
+                logger.info(f"it is: {global_args.hw_description}")
                 # We can only copy actual file paths, not URIs.
                 if '://' in global_args.hw_description:
+                    logger.info("wat")
                     if not global_args.hw_description.startswith('file://'):
                         raise Exception('Unable to fetch URI, URI fetching requires bitbake.')
 
@@ -286,6 +289,7 @@ def main():
                 if not global_args.output:
                     global_args.output = os.path.join(os.getcwd(), 'output',
                                    os.path.basename(global_args.hw_description).split('.')[0])
+                    logger.info(f"output set to: {global_args.output}")
                 else:
                     global_args.output = os.path.realpath(global_args.output)
                 common_utils.CreateDir(global_args.output)
@@ -308,6 +312,7 @@ def main():
 
         # Validate the given hw_description and get xsct/sdt
         global_args.hw_flow, global_args.hw_file, s_dir = validate_hwfile(hw_dir, _subparser)
+        logger.info(f"validate: {global_args.hw_flow}, {global_args.hw_file}")
         if s_dir and s_dir != '.':
             global_args.s_dir = os.path.join(global_args.s_dir or "", s_dir)
             logger.debug('Update s_dir to %s' % global_args.s_dir)
@@ -335,6 +340,7 @@ def main():
     if not args.output:
         args.output = os.path.join(os.getcwd(), 'output',
                                    os.path.basename(args.hw_file).split('.')[0])
+        logger.info(f"setting output: {args.output}")
     else:
         args.output = os.path.realpath(args.output)
     common_utils.CreateDir(args.output)
