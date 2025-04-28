@@ -205,6 +205,7 @@ def main():
         parser.error('The following arguments are required: %s' %
                      '--hw-description')
 
+    logger.info(f"hw-description: {global_args.hw_description}")
 
     # Default option for subparsers is not supported yet in python
     # If user not specified any subparser use the default parser based on the hw_description provided.
@@ -231,6 +232,8 @@ def main():
                 raise Exception('Unable to find hw_description %s' % path)
             path = os.path.realpath(path)
             global_args.hw_description = path
+            logger.info(f"messed with hw-description: {global_args.hw_description}")
+
 
         # Special case for passing in system-top.dts, we really need the directory we're in
         if '://' not in global_args.hw_description and global_args.hw_description.endswith('system-top.dts'):
@@ -238,6 +241,8 @@ def main():
             # This looks like an sdtgen output dir, pass the path to the directory instead!
             if os.path.exists(os.path.join(dirname, 'include')):
                 global_args.hw_description = dirname
+                logger.info(f"set from include: {global_args.hw_description}")
+
 
         if 'PETALINUX' in os.environ.keys() or global_args.petalinux:
             # We can only copy actual file paths, not URIs.
@@ -247,6 +252,8 @@ def main():
 
                 # Strip the file:// off
                 global_args.hw_description = global_args.hw_description[7:]
+                logger.info(f"more messing: {global_args.hw_description}")
+
 
             # PetaLinux workflow expects the hw_description path to be where we load and process from
             hw_dir = os.path.dirname(global_args.hw_description)
@@ -273,6 +280,7 @@ def main():
 
                     # Strip the file:// off
                     global_args.hw_description = global_args.hw_description[7:]
+                    logger.info(f"sigh: {global_args.hw_description}")
 
                 # Based on the args.output processing below
                 if not global_args.output:
