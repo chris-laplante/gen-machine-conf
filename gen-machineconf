@@ -296,7 +296,7 @@ def main():
                     global_args.output = os.path.realpath(global_args.output)
                 common_utils.CreateDir(global_args.output)
 
-                hw_dir = global_args.output
+                #hw_dir = global_args.output
                 target = os.path.join(hw_dir, os.path.basename(global_args.hw_description))
 
                 if os.path.isdir(global_args.hw_description):
