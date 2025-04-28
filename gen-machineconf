@@ -313,7 +313,7 @@ def main():
                 global_args.s_dir = os.path.dirname(global_args.hw_description).lstrip('/')
 
         # Validate the given hw_description and get xsct/sdt
-        global_args.hw_flow, global_args.hw_file, s_dir = validate_hwfile(hw_dir, _subparser)
+        global_args.hw_flow, global_args.hw_file, s_dir = validate_hwfile(global_args.hw_description, _subparser)
         logger.info(f"validate: {global_args.hw_flow}, {global_args.hw_file}")
         if s_dir and s_dir != '.':
             global_args.s_dir = os.path.join(global_args.s_dir or "", s_dir)
